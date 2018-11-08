@@ -1,0 +1,63 @@
+# Singularity Definition file for watchman base
+Bootstrap: docker
+From: ubuntu:14.04
+
+# Files to copy into the container go here
+%files
+  install_geant4.py
+
+%post -c /bin/bash
+  apt-get -y update \
+  && apt install -y build-essential python-dev wget vim emacs \
+                    libx11-dev libxpm-dev libxft-dev cmake python3 python3-pip\
+                    libxext-dev libqt4-dev scons git gfortran python-pip \
+  && apt-get autoclean && apt-get clean
+  python3 install_geant4.py
+
+# =============================================================================
+# ROOT (cern): installed as an app
+# =============================================================================
+  cd /rootcern
+  ./configure --with-x11-libdir=/usr/lib/x86_64-linux-gnu/ \
+    --with-xpm-libdir=/usr/lib/x86_64-linux-gnu/ \
+    --with-xft-libdir=/usr/lib/x86_64-linux-gnu/ \
+    --with-xext-libdir=/usr/lib/x86_64-linux-gnu/ \
+    --enable-python --enable-minuit2
+  make -j8
+  source bin/thisroot.sh
+  cd /
+
+  mkdir -p cmake
+  sh cmake.sh --skip-license --prefix=cmake
+  mkdir g4build
+  cd g4build
+  /cmake/bin/cmake -DCMAKE_INSTALL_PREFIX=/gb /geant \
+    -DGEANT4_USE_SYSTEM_EXPAT=OFF -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_QT=ON
+  make -j8
+  make install
+  source geant4make.sh
+  export G4NEUTRONXSDATA=/G4NEUTRONXSDATA
+  export G4LEDATA=/G4LEDATA
+  export G4LEVELGAMMADATA=/G4LEVELGAMMADATA
+  export G4RADIOACTIVEDATA=/G4RADIOACTIVEDATA
+  export G4SAIDXSDATA=/G4SAIDXSDATA
+  export G4NEUTRONHPDATA=/G4NEUTRONHPDATA 
+  export G4ABLADATA=/G4ABLADATA
+  export G4PIIDATA=/G4PIIDATA
+  export G4ENSDFSTATEDATA=/G4ENSDFSTATEDATA
+  export G4REALSURFACEDATA=/G4REALSURFACEDATA
+  export G4TENDLDATA=/G4TENDLDATA
+  cd /
+
+  # CLEANUP TAR FILES
+  rm /*.tar.gz
+
+  # SAVE THE WHOLE ENVIRONMENT
+  cd /
+  sh -c 'export -p' > saved_env.sh
+
+%apprun root
+  root "$@"
+
+%environment
+  . /saved_env.sh
