@@ -24,7 +24,7 @@ From: ubuntu:14.04
     --with-xext-libdir=/usr/lib/x86_64-linux-gnu/ \
     --enable-python --enable-minuit2
   make -j8
-  source bin/thisroot.sh
+  . ./bin/thisroot.sh
   cd /
 
   mkdir -p cmake
@@ -35,7 +35,7 @@ From: ubuntu:14.04
     -DGEANT4_USE_SYSTEM_EXPAT=OFF -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_QT=ON
   make -j8
   make install
-  source geant4make.sh
+  . ./geant4make.sh
   export G4NEUTRONXSDATA=/G4NEUTRONXSDATA
   export G4LEDATA=/G4LEDATA
   export G4LEVELGAMMADATA=/G4LEVELGAMMADATA

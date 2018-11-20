@@ -2,7 +2,8 @@ Bootstrap: localimage
 From: wmbase.sif
 
 %post -c /bin/bash
-  source saved_env.sh
+  cd /
+  . /saved_env.sh
   # =============================================================================
   # RAT-PAC: installed as an app
   # =============================================================================
@@ -11,11 +12,11 @@ From: wmbase.sif
   cd rat-pac
   git pull
   ./configure
-  source env.sh
+  . ./env.sh
+  mkdir -p ./build/linuxx8664gcc/fit/bonsai
+  gfortran -c ./src/fit/bonsai/lfariadne.F -o ./build/linuxx8664gcc/fit/bonsai/lfariadne.o
   scons
-  gfortran -c src/fit/bonsai/lfariadne.F -o build/linuxx8664gcc/fit/bonsai/lfariadne.o
-  scons
-  cd tools/bonsai && make
+  cd ./tools/bonsai && make
   cd /
 
   # SAVE THE WHOLE ENVIRONMENT
