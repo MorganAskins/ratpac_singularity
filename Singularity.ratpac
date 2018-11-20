@@ -1,5 +1,5 @@
-Bootstrap: localimage
-From: wmbase.sif
+Bootstrap: shub
+From: MorganAskins/ratpac_singularity:def
 
 %post -c /bin/bash
   cd /

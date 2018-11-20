@@ -18,4 +18,4 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-singularity build wmbase.sif watchman_base.def
+singularity build wmbase.sif Singularity.base

@@ -18,4 +18,4 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-singularity --debug build wmfinal.sif watchman_final.def
+singularity --debug build wmfinal.sif Singularity.ratpac
