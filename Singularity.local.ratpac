@@ -1,0 +1,30 @@
+Bootstrap: localimage
+From: wmbase.sif 
+
+%post -c /bin/bash
+  cd /
+  . /saved_env.sh
+  # =============================================================================
+  # RAT-PAC: installed as an app
+  # =============================================================================
+  # SETUP BASE RATPAC
+  git clone https://github.com/AIT-WATCHMAN/rat-pac.git rat-pac
+  cd rat-pac
+  git pull
+  ./configure
+  . ./env.sh
+  mkdir -p ./build/linuxx8664gcc/fit/bonsai
+  gfortran -c ./src/fit/bonsai/lfariadne.F -o ./build/linuxx8664gcc/fit/bonsai/lfariadne.o
+  scons
+  cd ./tools/bonsai && make
+  cd /
+
+  # SAVE THE WHOLE ENVIRONMENT
+  cd /
+  sh -c 'export -p' > saved_env.sh
+
+%apprun rat
+  rat "$@"
+
+%environment
+  . /saved_env.sh

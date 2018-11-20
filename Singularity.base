@@ -1,6 +1,7 @@
-# Singularity Definition file for watchman base
 Bootstrap: docker
 From: ubuntu:14.04
+# Singularity Definition file for watchman base, there is currently a bug that does
+# not allow comments at the top of a file, should be fixed in next release
 
 # Files to copy into the container go here
 %files
