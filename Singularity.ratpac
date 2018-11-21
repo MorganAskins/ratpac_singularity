@@ -1,5 +1,5 @@
 Bootstrap: shub
-From: MorganAskins/ratpac_singularity:def
+From: MorganAskins/ratpac_singularity:base
 
 %post -c /bin/bash
   cd /
