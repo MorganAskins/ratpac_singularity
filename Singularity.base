@@ -6,6 +6,7 @@ From: ubuntu:14.04
 # Files to copy into the container go here
 %files
   install_geant4.py
+  singularity_source.sh
 
 %post -c /bin/bash
   apt-get -y update \
@@ -25,7 +26,7 @@ From: ubuntu:14.04
     --with-xext-libdir=/usr/lib/x86_64-linux-gnu/ \
     --enable-python --enable-minuit2
   make -j8
-  . ./bin/thisroot.sh
+  /bin/bash -c 'source bin/thisroot.sh && sh -c "export -p > tempfile"' && . ./tempfile
   cd /
 
   mkdir -p cmake
@@ -36,7 +37,7 @@ From: ubuntu:14.04
     -DGEANT4_USE_SYSTEM_EXPAT=OFF -DGEANT4_BUILD_MULTITHREADED=ON -DGEANT4_USE_QT=ON
   make -j8
   make install
-  . ./geant4make.sh
+  /bin/bash -c 'source geant4make.sh && sh -c "export -p > tempfile"' && . ./tempfile
   export G4NEUTRONXSDATA=/G4NEUTRONXSDATA
   export G4LEDATA=/G4LEDATA
   export G4LEVELGAMMADATA=/G4LEVELGAMMADATA
