@@ -57,6 +57,7 @@ From: ubuntu:14.04
   # SAVE THE WHOLE ENVIRONMENT
   cd /
   sh -c 'export -p' > saved_env.sh
+  chmod 755 saved_env.sh
 
 %apprun root
   root "$@"
