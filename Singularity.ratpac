@@ -3,6 +3,7 @@ From: MorganAskins/ratpac_singularity:base
 
 %post -c /bin/bash
   cd /
+  sh -c 'export -p' > saved_env.sh
   . /saved_env.sh
   # =============================================================================
   # RAT-PAC: installed as an app

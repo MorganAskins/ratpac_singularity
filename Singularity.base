@@ -58,6 +58,7 @@ From: ubuntu:14.04
   cd /
   sh -c 'export -p' > saved_env.sh
   chmod 755 saved_env.sh
+  exit
 
 %apprun root
   root "$@"

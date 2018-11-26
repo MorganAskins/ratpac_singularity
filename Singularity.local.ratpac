@@ -22,6 +22,7 @@ From: wmbase.sif
   # SAVE THE WHOLE ENVIRONMENT
   cd /
   sh -c 'export -p' > saved_env.sh
+  exit
 
 %apprun rat
   rat "$@"
